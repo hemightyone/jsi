@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+
+  <!-- Box icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+
+  <!-- Custom StyleSheet -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="css/gido.css">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="navigation container">
+      <div class="logo">
+        <h1>DK</h1>
+      </div>
+
+      <div class="menu">
+        <div class="top-nav">
+          <div class="logo">
+            <h1>DK</h1>
+          </div>
+          <div class="close">
+            <i class="bx bx-x"></i>
+          </div>
+        </div>
+
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="product.html" class="nav-link">Products</a>
+          </li>
+          <li class="nav-item">
+          </li>
+          <li class="nav-item">
+          </li>
+          <li class="nav-item">
+            <a href="login.html" class="nav-link">Account</a>
+          </li>
+          <li class="nav-item">
+            <a href="cart.html" class="nav-link icon"><i class="bx bx-shopping-bag"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <a href="cart.html" class="cart-icon">
+        <i class="bx bx-shopping-bag"></i>
+      </a>
+
+      <div class="hamburger">
+        <i class="bx bx-menu"></i>
+      </div>
+    </div>
+  </nav>
+
+ 
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
+<script src="js/shoppingCart.js"></script>
+
+<h1>Shopping Cart</h1>
+
+        <div class="df">
+            <ul>
+                <li><a class="add-to-cart" href="#" data-name="Shirt" data-price="50">Shirt $50</a></li>
+                <li><a class="add-to-cart" href="#" data-name="Shirt" data-price="50">Shirt $50</a></li>
+                <li><a class="add-to-cart" href="#" data-name="Shoe" data-price="50">Shoe $50</a></li>
+                <li><a class="add-to-cart" href="#" data-name="T-shirt" data-price="40">T-shirt $40</a></li>
+            </ul>
+            <button id="clear-cart">Clear Cart</button>
+        </div>
+
+
+        <div>
+            <ul id="show-cart">
+                <li>???????</li>
+            </ul>
+            <div>You have <span id="count-cart">X</span> items in your cart</div>
+            <div>Total Cart:$<span id="total-cart"></span></div>
+        </div>
+
+
+
+        <script src="js/shoppingCart.js"></script>
+
+        <script>
+
+            $(".add-to-cart").click(function(event){
+                event.preventDefault();
+                var name = $(this).attr("data-name");
+                var price = Number($(this).attr("data-price"));
+
+                shoppingCart.addItemToCart(name, price, 1);
+                displayCart();
+            });
+
+            $("#clear-cart").click(function(event){
+                shoppingCart.clearCart();
+                displayCart();
+            });
+
+            function displayCart() {
+                var cartArray = shoppingCart.listCart();
+                console.log(cartArray);
+                var output = "";
+
+                for (var i in cartArray) {
+                    output += "<li>"
+                        +cartArray[i].name
+                        +" <input class='item-count' type='number' data-name='"
+                        +cartArray[i].name
+                        +"' value='"+cartArray[i].count+"' >"
+                        +" x "+cartArray[i].price
+                        +" = "+cartArray[i].total
+                        +" <button class='plus-item' data-name='"
+                        +cartArray[i].name+"'>+</button>"
+                        +" <button class='subtract-item' data-name='"
+                        +cartArray[i].name+"'>-</button>"
+                        +" <button class='delete-item' data-name='"
+                        +cartArray[i].name+"'>X</button>"
+                        +"</li>";
+                }
+
+                $("#show-cart").html(output);
+                $("#count-cart").html( shoppingCart.countCart() );
+                $("#total-cart").html( shoppingCart.totalCart() );
+            }
+
+            $("#show-cart").on("click", ".delete-item", function(event){
+                var name = $(this).attr("data-name");
+                shoppingCart.removeItemFromCartAll(name);
+                displayCart();
+            });
+
+            $("#show-cart").on("click", ".subtract-item", function(event){
+                var name = $(this).attr("data-name");
+                shoppingCart.removeItemFromCart(name);
+                displayCart();
+            });
+
+            $("#show-cart").on("click", ".plus-item", function(event){
+                var name = $(this).attr("data-name");
+                shoppingCart.addItemToCart(name, 0, 1);
+                displayCart();
+            });
+
+            $("#show-cart").on("change", ".item-count", function(event){
+                var name = $(this).attr("data-name");
+                var count = Number($(this).val());
+                shoppingCart.setCountForItem(name, count);
+                displayCart();
+            });
+
+
+            displayCart();
+
+        </script>
+
+
+  <!-- Footer -->
+  <footer id="footer" class="section footer">
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-center">
+          <h3>EXTRAS</h3>
+          <a href="#">Brands</a>
+          <a href="#">Gift Certificates</a>
+          <a href="#">Specials</a>
+        </div>
+        <div class="footer-center">
+          <h3>INFORMATION</h3>
+          <a href="#">About Us</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
+          <a href="#">Contact Us</a>
+        </div>
+        <div class="footer-center">
+          <h3>MY ACCOUNT</h3>
+          <a href="#">My Account</a>
+          <a href="#">Newsletter</a>
+          <a href="#">Returns</a>
+        </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+  <!-- Custom Script -->
+  <script src="./js/index.js"></script>
+  <script src="/js/shoppingCart.js"></script>
+</body>
+
+</html>
